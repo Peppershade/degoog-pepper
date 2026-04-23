@@ -97,7 +97,6 @@ const cfg: Record<string, string> = {
   sessionTtl: "28800",   // seconds — 8 hours
   logoutUrl: "",          // Keycloak realm logout URL
   emailHeader: "",        // optional Traefik header fallback (X-Forwarded-Email)
-  useAsSettingsGate: "false",
 };
 
 // ---------------------------------------------------------------------------
@@ -205,15 +204,6 @@ async function gravatarUrl(email: string): Promise<string> {
 // ---------------------------------------------------------------------------
 
 const settingsSchema: SettingField[] = [
-  {
-    key: "useAsSettingsGate",
-    label: "Use as settings gate",
-    type: "toggle",
-    description:
-      "Enable to protect the Settings page with Keycloak OIDC. " +
-      "Fill in the fields below first, then toggle this on.",
-    default: "false",
-  },
   {
     key: "keycloakUrl",
     label: "Keycloak realm URL",
@@ -446,8 +436,6 @@ const oidcMiddleware: RequestMiddleware = {
     // 1. Check auth status — called before showing settings
     // ------------------------------------------------------------------
     if (route === "settings-auth") {
-      if (cfg.useAsSettingsGate !== "true") return null; // gate disabled
-
       const token = getCookie(req, "kc-session");
       if (token && (await verifySession(token))) return null; // valid session
 
