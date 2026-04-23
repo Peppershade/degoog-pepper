@@ -31,7 +31,7 @@ export const slot = {
     {
       key: "url",
       label: "Outline URL",
-      type: "url",
+      type: "text",
       placeholder: "https://app.getoutline.com",
       description: "Your Outline instance URL",
       required: true,
