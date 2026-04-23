@@ -342,7 +342,9 @@ const deactivateGateRoute: PluginRoute = {
 const debugRoute: PluginRoute = {
   method: "get",
   path: "/debug",
-  handler(): Response {
+  async handler(): Promise<Response> {
+    const settingsPath = join(pluginDir, "../../plugin-settings.json");
+    const pluginSettings = await readPluginSettings();
     return new Response(
       JSON.stringify({
         configured: !!(cfg.keycloakUrl && cfg.clientId && cfg.clientSecret && cfg.sessionSecret),
@@ -353,6 +355,9 @@ const debugRoute: PluginRoute = {
         sessionTtl: cfg.sessionTtl,
         logoutUrl: cfg.logoutUrl || "(not set)",
         emailHeader: cfg.emailHeader || "(not set)",
+        pluginDir: pluginDir || "(not set — init not called)",
+        settingsPath,
+        middlewareSettingsGate: pluginSettings["middleware"]?.["settingsGate"] ?? "(not set)",
       }, null, 2),
       { headers: { "content-type": "application/json" } },
     );
