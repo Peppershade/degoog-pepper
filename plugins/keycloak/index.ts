@@ -269,6 +269,30 @@ function applySettings(settings: Record<string, string | string[]>): void {
 }
 
 // ---------------------------------------------------------------------------
+// Route: GET /debug  — verify cfg was populated by configure()
+// ---------------------------------------------------------------------------
+
+const debugRoute: PluginRoute = {
+  method: "get",
+  path: "/debug",
+  handler(): Response {
+    return new Response(
+      JSON.stringify({
+        configured: !!(cfg.keycloakUrl && cfg.clientId && cfg.clientSecret && cfg.sessionSecret),
+        keycloakUrl: cfg.keycloakUrl || "(not set)",
+        clientId: cfg.clientId || "(not set)",
+        clientSecret: cfg.clientSecret ? "***" : "(not set)",
+        sessionSecret: cfg.sessionSecret ? "***" : "(not set)",
+        sessionTtl: cfg.sessionTtl,
+        logoutUrl: cfg.logoutUrl || "(not set)",
+        emailHeader: cfg.emailHeader || "(not set)",
+      }, null, 2),
+      { headers: { "content-type": "application/json" } },
+    );
+  },
+};
+
+// ---------------------------------------------------------------------------
 // Route: GET /whoami
 // ---------------------------------------------------------------------------
 
@@ -431,6 +455,7 @@ const oidcMiddleware: RequestMiddleware = {
     context?: { route?: string },
   ): Promise<Response | MiddlewareResult | null> {
     const route = context?.route;
+    console.error(`[keycloak] handle called — route=${route ?? "(none)"} configured=${!!(cfg.keycloakUrl && cfg.clientId)}`);
 
     // ------------------------------------------------------------------
     // 1. Check auth status — called before showing settings
@@ -579,6 +604,7 @@ const userSlot: SlotPlugin = {
 // ---------------------------------------------------------------------------
 
 export const routes: PluginRoute[] = [
+  debugRoute,
   whoamiRoute,
   loginRoute,
   logoutRoute,
