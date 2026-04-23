@@ -20,7 +20,7 @@
 .outline-slot-item {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: 0.25rem;
 }
 
 .outline-slot-item a {
@@ -34,10 +34,39 @@
   text-decoration: underline;
 }
 
-.outline-slot-item span {
+.outline-slot-excerpt {
   font-size: 0.8rem;
   color: var(--text-muted);
-  line-height: 1.35;
+  line-height: 1.45;
+}
+
+.outline-slot-excerpt b {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.outline-slot-excerpt code {
+  font-family: monospace;
+  font-size: 0.78rem;
+  background: var(--background-tertiary, rgba(0,0,0,0.08));
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  color: var(--text-primary);
+}
+
+.outline-slot-excerpt pre {
+  margin: 0.3rem 0 0;
+  padding: 0.5rem 0.65rem;
+  background: var(--background-tertiary, rgba(0,0,0,0.08));
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.outline-slot-excerpt pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.75rem;
+  white-space: pre;
 }
 
 .outline-slot-more {
