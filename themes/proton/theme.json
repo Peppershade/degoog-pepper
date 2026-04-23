@@ -1,0 +1,7 @@
+{
+  "name": "Proton",
+  "description": "Inspired by Proton's design language — dark purple-navy backgrounds with violet accents",
+  "author": "Peppershade",
+  "version": "1.0.0",
+  "css": "style.css"
+}

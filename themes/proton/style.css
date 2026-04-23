@@ -1,0 +1,83 @@
+/* ============================================================
+   Proton theme — dark purple-navy with violet accents
+   ============================================================ */
+
+/* Dark (default) */
+:root,
+[data-theme="dark"] {
+  --primary:             #6D4AFF;
+  --primary-hover:       #5535E6;
+  --primary-rgb:         109, 74, 255;
+
+  --danger:              #F44343;
+  --warning:             #F59D00;
+  --success:             #1CB36E;
+
+  --bg:                  #1C1B3A;
+  --bg-light:            #262450;
+  --bg-hover:            #302D60;
+
+  --search-bar-bg:       #262450;
+  --search-bar-bg-hover: #302D60;
+
+  --btn-bg:              #6D4AFF;
+  --btn-text:            #FFFFFF;
+  --overlay-bg:          rgba(10, 8, 35, 0.85);
+  --white:               #FFFFFF;
+
+  --border:              #3E3868;
+  --border-light:        #262450;
+
+  --text-primary:        #F5F4FA;
+  --text-secondary:      #A8A4BA;
+  --text-link:           #8B76FF;
+  --text-link-visited:   #C090FF;
+  --text-cite:           #6AC57A;
+  --text-snippet:        #BAB7CC;
+
+  /* Outline plugin */
+  --accent:              #6D4AFF;
+  --background-secondary: #262450;
+  --background-tertiary:  #302D60;
+  --text-muted:           #A8A4BA;
+}
+
+/* Light */
+:root:not([data-theme="dark"]),
+[data-theme="light"] {
+  --primary:             #6D4AFF;
+  --primary-hover:       #5535E6;
+  --primary-rgb:         109, 74, 255;
+
+  --danger:              #CC0000;
+  --warning:             #B06800;
+  --success:             #0C7540;
+
+  --bg:                  #FFFFFF;
+  --bg-light:            #F7F5FF;
+  --bg-hover:            #EDE9FF;
+
+  --search-bar-bg:       #F0EEFF;
+  --search-bar-bg-hover: #E8E4FF;
+
+  --btn-bg:              #6D4AFF;
+  --btn-text:            #FFFFFF;
+  --overlay-bg:          rgba(20, 15, 60, 0.6);
+  --white:               #FFFFFF;
+
+  --border:              #D9D5ED;
+  --border-light:        #EDE9FF;
+
+  --text-primary:        #1C1B3A;
+  --text-secondary:      #6B677A;
+  --text-link:           #6D4AFF;
+  --text-link-visited:   #5535CC;
+  --text-cite:           #0C7540;
+  --text-snippet:        #4D4A5E;
+
+  /* Outline plugin */
+  --accent:              #6D4AFF;
+  --background-secondary: #F7F5FF;
+  --background-tertiary:  #EDE9FF;
+  --text-muted:           #6B677A;
+}

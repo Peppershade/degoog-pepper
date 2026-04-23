@@ -18,7 +18,14 @@
       "type": "middleware"
     }
   ],
-  "themes": [],
+  "themes": [
+    {
+      "path": "themes/proton",
+      "name": "Proton",
+      "description": "Inspired by Proton's design language — dark purple-navy backgrounds with violet accents",
+      "version": "1.0.0"
+    }
+  ],
   "engines": [],
   "transports": []
 }
