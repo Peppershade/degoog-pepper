@@ -1,17 +1,17 @@
 /**
  * Keycloak user plugin for Degoog
  *
- * Drop this folder into:  data/plugins/keycloak-user/
+ * Drop this folder into:  data/plugins/keycloak/
  *
  * What it does:
  *   - Gates the Settings page with Keycloak OIDC (RequestMiddleware / settingsGate)
  *   - Injects an email + Gravatar chip next to the gear icon on every search page
  *
  * Routes:
- *   GET /api/plugin/keycloak-user/whoami      → {authenticated, email, gravatarUrl}
- *   GET /api/plugin/keycloak-user/login       → redirect to Keycloak auth endpoint
- *   GET /api/plugin/keycloak-user/logout      → clear session cookie + redirect to Keycloak logout
- *   GET /api/plugin/keycloak-user/client.js   → DOM injection script for the chip
+ *   GET /api/plugin/keycloak/whoami      → {authenticated, email, gravatarUrl}
+ *   GET /api/plugin/keycloak/login       → redirect to Keycloak auth endpoint
+ *   GET /api/plugin/keycloak/logout      → clear session cookie + redirect to Keycloak logout
+ *   GET /api/plugin/keycloak/client.js   → DOM injection script for the chip
  *
  * Session is a HMAC-SHA256-signed cookie (kc-session) issued after OIDC callback.
  * The chip uses the session for email/Gravatar — no Traefik header required,
@@ -385,7 +385,7 @@ const clientJsRoute: PluginRoute = {
 (function () {
   if (document.getElementById('kc-user-chip')) return;
 
-  fetch('/api/plugin/keycloak-user/whoami')
+  fetch('/api/plugin/keycloak/whoami')
     .then(function (r) { return r.json(); })
     .then(function (u) {
       if (!u.authenticated || !u.email) return;
@@ -417,7 +417,7 @@ const clientJsRoute: PluginRoute = {
 
       var chip = document.createElement('a');
       chip.id = 'kc-user-chip';
-      chip.href = '/api/plugin/keycloak-user/logout';
+      chip.href = '/api/plugin/keycloak/logout';
       chip.title = 'Signed in as ' + u.email + ' — click to sign out';
       chip.style.cssText =
         'display:inline-flex;align-items:center;gap:8px;' +
@@ -446,7 +446,7 @@ const clientJsRoute: PluginRoute = {
 // ---------------------------------------------------------------------------
 
 const oidcMiddleware: RequestMiddleware = {
-  id: "keycloak-user",
+  id: "keycloak",
   name: "Keycloak OIDC",
   settingsGate: true,
 
@@ -468,7 +468,7 @@ const oidcMiddleware: RequestMiddleware = {
         JSON.stringify({
           required: true,
           valid: false,
-          loginUrl: "/api/plugin/keycloak-user/login",
+          loginUrl: "/api/plugin/keycloak/login",
         }),
         { headers: { "content-type": "application/json" } },
       );
@@ -580,7 +580,7 @@ const oidcMiddleware: RequestMiddleware = {
 // ---------------------------------------------------------------------------
 
 const userSlot: SlotPlugin = {
-  id: "keycloak-user",
+  id: "keycloak",
   name: "Keycloak User",
   description: "Injects authenticated email chip next to the gear icon",
   position: "above-results",
@@ -591,7 +591,7 @@ const userSlot: SlotPlugin = {
 
   async execute(_query: string): Promise<{ title?: string; html: string }> {
     const html = `<img src="/__kc_boot__" style="display:none;position:absolute;width:0;height:0"
-  onerror="(function(i){var s=document.createElement('script');s.src='/api/plugin/keycloak-user/client.js';document.head.appendChild(s);i.remove();})(this)">`;
+  onerror="(function(i){var s=document.createElement('script');s.src='/api/plugin/keycloak/client.js';document.head.appendChild(s);i.remove();})(this)">`;
     return { html };
   },
 
