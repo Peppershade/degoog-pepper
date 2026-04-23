@@ -13,7 +13,7 @@
     {
       "path": "plugins/keycloak",
       "name": "Keycloak OIDC",
-      "description": "Gate degoog Settings with Keycloak OIDC and show an authenticated user chip next to the settings icon.",
+      "description": "Protects the Settings page with Keycloak OIDC and shows an authenticated user chip next to the settings icon.",
       "version": "1.0.0",
       "type": "middleware"
     }

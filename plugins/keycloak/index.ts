@@ -581,8 +581,8 @@ const oidcMiddleware: RequestMiddleware = {
 
 const userSlot: SlotPlugin = {
   id: "keycloak",
-  name: "Keycloak User",
-  description: "Injects authenticated email chip next to the gear icon",
+  name: "Keycloak OIDC",
+  description: "Protects the Settings page with Keycloak OIDC",
   position: "above-results",
 
   trigger(_query: string): boolean {
