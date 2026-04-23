@@ -1,0 +1,9 @@
+{
+  "name": "degoog-plugin-outline",
+  "version": "1.0.0",
+  "description": "Search your Outline knowledge base from degoog",
+  "type": "bang+slot",
+  "author": "Peppershade",
+  "license": "MIT",
+  "keywords": ["degoog", "degoog-plugin", "outline", "knowledge-base"]
+}
