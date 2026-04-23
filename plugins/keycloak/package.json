@@ -1,0 +1,9 @@
+{
+  "name": "degoog-plugin-keycloak",
+  "version": "1.0.0",
+  "description": "Gate degoog Settings with Keycloak OIDC and show an authenticated user chip next to the settings icon",
+  "type": "middleware",
+  "author": "Peppershade",
+  "license": "MIT",
+  "keywords": ["degoog", "degoog-plugin", "keycloak", "oidc", "auth"]
+}
