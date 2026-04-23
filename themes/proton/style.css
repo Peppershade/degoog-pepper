@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 /* ============================================================
-   Proton theme — dark purple-navy with violet accents
+   Proton theme — exact colors from proton.me
    ============================================================ */
 
 /* ----- Logo ----- */
@@ -18,6 +20,7 @@
 }
 
 .proton-logo-text {
+  font-family: 'Inter', sans-serif;
   font-size: 2.6rem;
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -26,82 +29,112 @@
   line-height: 1;
 }
 
-/* Dark (default) */
-:root,
-[data-theme="dark"] {
-  --primary:             #6D4AFF;
-  --primary-hover:       #5535E6;
-  --primary-rgb:         109, 74, 255;
-
-  --danger:              #F44343;
-  --warning:             #F59D00;
-  --success:             #1CB36E;
-
-  --bg:                  #1C1B3A;
-  --bg-light:            #262450;
-  --bg-hover:            #302D60;
-
-  --search-bar-bg:       #262450;
-  --search-bar-bg-hover: #302D60;
-
-  --btn-bg:              #6D4AFF;
-  --btn-text:            #FFFFFF;
-  --overlay-bg:          rgba(10, 8, 35, 0.85);
-  --white:               #FFFFFF;
-
-  --border:              #3E3868;
-  --border-light:        #262450;
-
-  --text-primary:        #F5F4FA;
-  --text-secondary:      #A8A4BA;
-  --text-link:           #8B76FF;
-  --text-link-visited:   #C090FF;
-  --text-cite:           #6AC57A;
-  --text-snippet:        #BAB7CC;
-
-  /* Outline plugin */
-  --accent:              #6D4AFF;
-  --background-secondary: #262450;
-  --background-tertiary:  #302D60;
-  --text-muted:           #A8A4BA;
+/* ----- Search header logo ----- */
+.proton-search-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
 }
 
-/* Light */
-:root:not([data-theme="dark"]),
-[data-theme="light"] {
-  --primary:             #6D4AFF;
-  --primary-hover:       #5535E6;
-  --primary-rgb:         109, 74, 255;
+.proton-search-icon {
+  width: 26px;
+  height: 30px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 4px rgba(109, 74, 255, 0.4));
+}
 
-  --danger:              #CC0000;
-  --warning:             #B06800;
-  --success:             #0C7540;
+.proton-search-wordmark {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1;
+}
 
-  --bg:                  #FFFFFF;
-  --bg-light:            #F7F5FF;
-  --bg-hover:            #EDE9FF;
+/* ============================================================
+   Dark (default) — proton.me dark palette
+   bg: #08031f  surface: #17132d  elevated: #1b1340
+   ============================================================ */
+:root,
+[data-theme="dark"] {
+  --primary:              #6d4aff;
+  --primary-hover:        #372580;
+  --primary-rgb:          109, 74, 255;
 
-  --search-bar-bg:       #F0EEFF;
-  --search-bar-bg-hover: #E8E4FF;
+  --danger:               #e11d48;
+  --warning:              #ca8a04;
+  --success:              #10b981;
 
-  --btn-bg:              #6D4AFF;
-  --btn-text:            #FFFFFF;
-  --overlay-bg:          rgba(20, 15, 60, 0.6);
-  --white:               #FFFFFF;
+  --bg:                   #08031f;
+  --bg-light:             #17132d;
+  --bg-hover:             #1b1340;
 
-  --border:              #D9D5ED;
-  --border-light:        #EDE9FF;
+  --search-bar-bg:        #17132d;
+  --search-bar-bg-hover:  #1b1340;
 
-  --text-primary:        #1C1B3A;
-  --text-secondary:      #6B677A;
-  --text-link:           #6D4AFF;
-  --text-link-visited:   #5535CC;
-  --text-cite:           #0C7540;
-  --text-snippet:        #4D4A5E;
+  --btn-bg:               #6d4aff;
+  --btn-text:             #ffffff;
+  --overlay-bg:           rgba(8, 3, 31, 0.88);
+  --white:                #ffffff;
+
+  --border:               #2a2050;
+  --border-light:         #17132d;
+
+  --text-primary:         #ffffff;
+  --text-secondary:       #9ca3af;
+  --text-link:            #c5b7ff;
+  --text-link-visited:    #e2dbff;
+  --text-cite:            #26da79;
+  --text-snippet:         #d1d5db;
 
   /* Outline plugin */
-  --accent:              #6D4AFF;
-  --background-secondary: #F7F5FF;
-  --background-tertiary:  #EDE9FF;
-  --text-muted:           #6B677A;
+  --accent:               #6d4aff;
+  --background-secondary: #17132d;
+  --background-tertiary:  #1b1340;
+  --text-muted:           #9ca3af;
+}
+
+/* ============================================================
+   Light — proton.me light palette
+   bg: #f7f5ff  surface: #efefff  elevated: #e2dbff
+   ============================================================ */
+:root:not([data-theme="dark"]),
+[data-theme="light"] {
+  --primary:              #6d4aff;
+  --primary-hover:        #372580;
+  --primary-rgb:          109, 74, 255;
+
+  --danger:               #e11d48;
+  --warning:              #ca8a04;
+  --success:              #10b981;
+
+  --bg:                   #f7f5ff;
+  --bg-light:             #efefff;
+  --bg-hover:             #e2dbff;
+
+  --search-bar-bg:        #efefff;
+  --search-bar-bg-hover:  #e2dbff;
+
+  --btn-bg:               #6d4aff;
+  --btn-text:             #ffffff;
+  --overlay-bg:           rgba(8, 3, 31, 0.55);
+  --white:                #ffffff;
+
+  --border:               #e5e7eb;
+  --border-light:         #efefff;
+
+  --text-primary:         #1f2937;
+  --text-secondary:       #6b7280;
+  --text-link:            #6d4aff;
+  --text-link-visited:    #372580;
+  --text-cite:            #10b981;
+  --text-snippet:         #4b5563;
+
+  /* Outline plugin */
+  --accent:               #6d4aff;
+  --background-secondary: #efefff;
+  --background-tertiary:  #e2dbff;
+  --text-muted:           #6b7280;
 }
