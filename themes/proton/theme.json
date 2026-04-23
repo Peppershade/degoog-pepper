@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "css": "style.css",
   "templates": {
-    "home-logo": "index-templates/logo.html"
+    "home-logo": "index-templates/logo.html",
+    "search-header": "search-templates/header.html"
   }
 }
