@@ -1,4 +1,3 @@
-let bangTemplate = "";
 let slotTemplate = "";
 let cfg = {};
 
@@ -8,7 +7,7 @@ const headers = () => ({
   Authorization: `Bearer ${cfg.apiKey}`,
 });
 
-async function search(query, limit = 5) {
+async function search(query, limit = 3) {
   const res = await fetch(`${baseUrl()}/api/documents.search`, {
     method: "POST",
     headers: headers(),
@@ -23,13 +22,10 @@ function docUrl(doc) {
   return doc.url?.startsWith("http") ? doc.url : `${baseUrl()}${doc.url}`;
 }
 
-// ── Bang command ─────────────────────────────────────────────────────────────
-
-export default {
+export const slot = {
+  id: "outline",
   name: "Outline Knowledge Base",
-  description: "Search your Outline knowledge base",
-  trigger: "kb",
-  aliases: ["outline", "wiki", "docs"],
+  position: "above-results",
 
   settingsSchema: [
     {
@@ -51,53 +47,6 @@ export default {
   ],
 
   async init(ctx) {
-    bangTemplate = ctx.template;
-  },
-
-  configure(settings) {
-    cfg = settings;
-  },
-
-  isConfigured() {
-    return !!(cfg.apiKey && cfg.url);
-  },
-
-  async execute(args) {
-    const query = args.trim();
-    if (!query) return { title: "Outline", html: "<p>Enter a search query.</p>" };
-
-    const results = await search(query, 8);
-    if (!results.length) {
-      return { title: `Outline: ${query}`, html: "<p>No results found.</p>" };
-    }
-
-    const items = results
-      .map(
-        ({ document: doc, context }) => `
-        <li class="outline-item">
-          <a class="outline-item-title" href="${docUrl(doc)}" target="_blank" rel="noopener">${doc.title}</a>
-          ${context ? `<p class="outline-item-excerpt">${context}</p>` : ""}
-        </li>`
-      )
-      .join("");
-
-    const html = bangTemplate
-      .replace("{{query}}", query)
-      .replace("{{items}}", items)
-      .replace("{{moreUrl}}", `${baseUrl()}/search/${encodeURIComponent(query)}`);
-
-    return { title: `Outline: ${query}`, html };
-  },
-};
-
-// ── Slot plugin ──────────────────────────────────────────────────────────────
-
-export const slot = {
-  id: "outline",
-  name: "Outline Knowledge Base",
-  position: "above-results",
-
-  async init(ctx) {
     slotTemplate = await ctx.readFile("slot-template.html");
   },
 
@@ -108,7 +57,7 @@ export const slot = {
   async trigger(query) {
     if (!cfg.apiKey || !cfg.url) return false;
     try {
-      const results = await search(query, 3);
+      const results = await search(query);
       this._results = results;
       return results.length > 0;
     } catch {
@@ -117,9 +66,7 @@ export const slot = {
   },
 
   async execute(query) {
-    const results = this._results ?? [];
-
-    const items = results
+    const items = (this._results ?? [])
       .map(
         ({ document: doc, context }) => `
         <div class="outline-slot-item">

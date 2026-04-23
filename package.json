@@ -8,7 +8,7 @@
       "name": "Outline Knowledge Base",
       "description": "Search your Outline knowledge base from the degoog search bar. Provides a !kb bang command and an inline slot panel that surfaces relevant articles alongside web results.",
       "version": "1.0.0",
-      "type": "command"
+      "type": "slot"
     }
   ],
   "themes": [],
