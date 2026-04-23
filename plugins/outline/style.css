@@ -1,0 +1,101 @@
+/* ── Bang command ─────────────────────────────────── */
+.outline-bang {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.outline-bang-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.outline-bang-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.outline-bang-more {
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+.outline-bang-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.outline-item-title {
+  display: block;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.outline-item-title:hover {
+  text-decoration: underline;
+}
+
+.outline-item-excerpt {
+  margin: 0.15rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ── Slot panel ───────────────────────────────────── */
+.outline-slot {
+  border-left: 3px solid var(--accent);
+  padding: 0.6rem 0.9rem;
+  background: var(--background-secondary);
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.outline-slot-header {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.outline-slot-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.outline-slot-item a {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.outline-slot-item a:hover {
+  text-decoration: underline;
+}
+
+.outline-slot-item span {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.outline-slot-more {
+  font-size: 0.78rem;
+  color: var(--accent);
+  margin-top: 0.15rem;
+}

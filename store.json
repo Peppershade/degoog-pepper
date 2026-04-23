@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "repository": "https://github.com/Peppershade/degoog-pepper",
+  "plugins": [
+    {
+      "id": "outline",
+      "name": "Outline Knowledge Base",
+      "description": "Search your Outline knowledge base from the degoog search bar. Provides a !kb bang command and an inline slot panel that surfaces relevant articles alongside web results.",
+      "version": "1.0.0",
+      "types": ["bang", "slot"],
+      "triggers": ["kb", "outline", "wiki", "docs"],
+      "requiresConfig": true,
+      "tags": ["knowledge-base", "search", "documentation", "self-hosted"],
+      "path": "plugins/outline"
+    }
+  ]
+}
