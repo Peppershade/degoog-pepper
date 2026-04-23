@@ -8,15 +8,21 @@
  *   - Injects an email + Gravatar chip next to the gear icon on every search page
  *
  * Routes:
- *   GET /api/plugin/keycloak/whoami      → {authenticated, email, gravatarUrl}
- *   GET /api/plugin/keycloak/login       → redirect to Keycloak auth endpoint
- *   GET /api/plugin/keycloak/logout      → clear session cookie + redirect to Keycloak logout
- *   GET /api/plugin/keycloak/client.js   → DOM injection script for the chip
+ *   GET /api/plugin/keycloak/whoami           → {authenticated, email, gravatarUrl}
+ *   GET /api/plugin/keycloak/login            → redirect to Keycloak auth endpoint
+ *   GET /api/plugin/keycloak/logout           → clear session cookie + redirect to Keycloak logout
+ *   GET /api/plugin/keycloak/client.js        → DOM injection script for the chip
+ *   GET /api/plugin/keycloak/activate-gate    → write settingsGate to plugin-settings.json
+ *   GET /api/plugin/keycloak/deactivate-gate  → remove settingsGate from plugin-settings.json
+ *   GET /api/plugin/keycloak/debug            → show current cfg state
  *
  * Session is a HMAC-SHA256-signed cookie (kc-session) issued after OIDC callback.
  * The chip uses the session for email/Gravatar — no Traefik header required,
  * though the emailHeader setting is read as a fallback if set.
  */
+
+import { readFile, writeFile } from "fs/promises";
+import { join } from "path";
 
 // ---------------------------------------------------------------------------
 // Inline type declarations
@@ -88,6 +94,8 @@ interface SettingField {
 // ---------------------------------------------------------------------------
 // Runtime configuration
 // ---------------------------------------------------------------------------
+
+let pluginDir = "";
 
 const cfg: Record<string, string> = {
   keycloakUrl: "",        // https://<host>/realms/<realm>
@@ -267,6 +275,65 @@ function applySettings(settings: Record<string, string | string[]>): void {
     }
   }
 }
+
+// ---------------------------------------------------------------------------
+// Helpers: read/write plugin-settings.json via ctx.dir
+// ---------------------------------------------------------------------------
+
+async function readPluginSettings(): Promise<Record<string, Record<string, string>>> {
+  try {
+    const raw = await readFile(join(pluginDir, "../../plugin-settings.json"), "utf-8");
+    return JSON.parse(raw);
+  } catch {
+    return {};
+  }
+}
+
+async function writePluginSettings(settings: Record<string, Record<string, string>>): Promise<void> {
+  await writeFile(
+    join(pluginDir, "../../plugin-settings.json"),
+    JSON.stringify(settings, null, 2),
+    "utf-8",
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Route: GET /activate-gate  — write settingsGate into middleware namespace
+// ---------------------------------------------------------------------------
+
+const activateGateRoute: PluginRoute = {
+  method: "get",
+  path: "/activate-gate",
+  async handler(): Promise<Response> {
+    const settings = await readPluginSettings();
+    settings["middleware"] = { ...(settings["middleware"] ?? {}), settingsGate: "plugin:keycloak" };
+    await writePluginSettings(settings);
+    return new Response(
+      JSON.stringify({ ok: true, message: "Settings gate activated. Keycloak OIDC now protects the Settings page." }),
+      { headers: { "content-type": "application/json" } },
+    );
+  },
+};
+
+// ---------------------------------------------------------------------------
+// Route: GET /deactivate-gate  — remove settingsGate from middleware namespace
+// ---------------------------------------------------------------------------
+
+const deactivateGateRoute: PluginRoute = {
+  method: "get",
+  path: "/deactivate-gate",
+  async handler(): Promise<Response> {
+    const settings = await readPluginSettings();
+    if (settings["middleware"]) {
+      delete settings["middleware"]["settingsGate"];
+    }
+    await writePluginSettings(settings);
+    return new Response(
+      JSON.stringify({ ok: true, message: "Settings gate deactivated." }),
+      { headers: { "content-type": "application/json" } },
+    );
+  },
+};
 
 // ---------------------------------------------------------------------------
 // Route: GET /debug  — verify cfg was populated by configure()
@@ -567,6 +634,10 @@ const oidcMiddleware: RequestMiddleware = {
     return null;
   },
 
+  init(ctx: { dir: string }): void {
+    pluginDir = ctx.dir;
+  },
+
   settingsSchema,
   configure: applySettings,
 
@@ -604,6 +675,8 @@ const userSlot: SlotPlugin = {
 // ---------------------------------------------------------------------------
 
 export const routes: PluginRoute[] = [
+  activateGateRoute,
+  deactivateGateRoute,
   debugRoute,
   whoamiRoute,
   loginRoute,
